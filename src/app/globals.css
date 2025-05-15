@@ -38,6 +38,10 @@
   --font-sans: var(--font-inter);
   --font-mono: var(--font-roboto-mono);
 
+  /* Typography */
+  --typography-body: var(--font-sans);
+  --typography-headings: var(--font-sans);
+
   /* Animations */
   --ease-pulse-slow: cubic-bezier(0.4, 0, 0.6, 1);
 

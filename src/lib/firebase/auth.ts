@@ -10,10 +10,9 @@ import {
   UserCredential,
   onAuthStateChanged,
 } from "firebase/auth";
-import { auth, db } from "./firebase";
+import { auth, db } from "./config";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { UserProfile } from "@/types";
-import { create } from "domain";
 
 export const registerWithEmailAndPassword = async (
   email: string,

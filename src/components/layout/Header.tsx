@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTheme } from "@/components/providers/ThemeProvider";
+import { useTheme } from "@/contexts/theme/ThemeContext";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { Sun, Moon, Menu, X } from "lucide-react";

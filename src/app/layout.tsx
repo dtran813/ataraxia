@@ -2,7 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { ThemeProvider } from "@/contexts/theme/ThemeContext";
+import { AuthProvider } from "@/contexts/auth/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,10 +31,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${robotoMono.variable}`}>
       <body className="bg-light-100 dark:bg-dark-200 min-h-screen">
-        <ThemeProvider>
-          {children}
-          <Toaster position="bottom-right" />
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            {children}
+            <Toaster position="bottom-right" />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

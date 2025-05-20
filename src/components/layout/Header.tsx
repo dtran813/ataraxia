@@ -60,6 +60,12 @@ export function Header() {
               >
                 Timer
               </Link>
+              <Link
+                href="/focus"
+                className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
+              >
+                Focus
+              </Link>
             </nav>
           </div>
 
@@ -138,6 +144,12 @@ export function Header() {
               className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
             >
               Timer
+            </Link>
+            <Link
+              href="/focus"
+              className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
+            >
+              Focus
             </Link>
 
             <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-800">

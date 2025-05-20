@@ -54,6 +54,12 @@ export function Header() {
               >
                 UI Demo
               </Link>
+              <Link
+                href="/timer"
+                className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
+              >
+                Timer
+              </Link>
             </nav>
           </div>
 
@@ -127,6 +133,13 @@ export function Header() {
             >
               UI Demo
             </Link>
+            <Link
+              href="/timer"
+              className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
+            >
+              Timer
+            </Link>
+
             <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-800">
               <Link
                 href="/login"

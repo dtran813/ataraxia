@@ -12,7 +12,7 @@ export function EnvironmentSelector() {
   const [showSelector, setShowSelector] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <button
         onClick={() => setShowSelector(!showSelector)}
         className="flex items-center space-x-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"

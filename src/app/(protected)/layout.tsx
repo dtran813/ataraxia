@@ -1,5 +1,6 @@
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { MainLayout } from "@/components/layout/MainLayout";
+import { MigrationNotificationWrapper } from "@/components/auth/MigrationNotificationWrapper";
 
 export default function ProtectedLayout({
   children,
@@ -8,7 +9,9 @@ export default function ProtectedLayout({
 }) {
   return (
     <ProtectedRoute>
-      <MainLayout>{children}</MainLayout>
+      <MainLayout>
+        <MigrationNotificationWrapper>{children}</MigrationNotificationWrapper>
+      </MainLayout>
     </ProtectedRoute>
   );
 }

@@ -1,174 +1,172 @@
 "use client";
 
-import Link from "next/link";
+import { useAuth } from "@/contexts/auth/AuthContext";
 import { useTheme } from "@/contexts/theme/ThemeContext";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
-import { Sun, Moon, Menu, X } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuDivider,
+} from "@/components/ui/DropdownMenu";
+import {
+  Moon,
+  Sun,
+  User,
+  Settings,
+  LogOut,
+  Timer,
+  Mountain,
+  BarChart3,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { MobileNav } from "@/components/layout/MobileNav";
 
 export function Header() {
+  const { user, signOut } = useAuth();
   const { theme, setTheme } = useTheme();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      router.push("/");
+    } catch (error) {
+      console.error("Sign out error:", error);
+    }
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white dark:bg-dark-200 border-b border-gray-200 dark:border-gray-800">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo and main nav */}
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent">
-                Ataraxia
-              </span>
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-2">
+            <Mountain className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+            <span className="text-xl font-bold text-gray-900 dark:text-white">
+              Ataraxia
+            </span>
+          </Link>
+
+          {/* Navigation Links - Hidden on mobile */}
+          <nav className="hidden md:flex items-center space-x-6">
+            <Link
+              href="/focus"
+              className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+            >
+              <Mountain className="w-4 h-4" />
+              <span>Focus</span>
             </Link>
-            <nav className="hidden ml-8 md:flex space-x-4">
-              <Link
-                href="/dashboard"
-                className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
-              >
-                Dashboard
-              </Link>
-              <Link
-                href="/environments"
-                className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
-              >
-                Environments
-              </Link>
+
+            <Link
+              href="/timer"
+              className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+            >
+              <Timer className="w-4 h-4" />
+              <span>Timer</span>
+            </Link>
+
+            {user && (
               <Link
                 href="/analytics"
-                className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
+                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
               >
-                Analytics
+                <BarChart3 className="w-4 h-4" />
+                <span>Analytics</span>
               </Link>
-              <Link
-                href="/ui-demo"
-                className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
-              >
-                UI Demo
-              </Link>
-              <Link
-                href="/timer"
-                className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
-              >
-                Timer
-              </Link>
-              <Link
-                href="/focus"
-                className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
-              >
-                Focus
-              </Link>
-            </nav>
-          </div>
+            )}
+          </nav>
 
-          {/* Right side - auth and theme toggle */}
+          {/* Right side controls */}
           <div className="flex items-center space-x-4">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-100"
-              aria-label="Toggle theme"
+            {/* Theme Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="w-9 h-9 p-0"
             >
               {theme === "dark" ? (
-                <Sun className="w-5 h-5" />
+                <Sun className="w-4 h-4" />
               ) : (
-                <Moon className="w-5 h-5" />
+                <Moon className="w-4 h-4" />
               )}
-            </button>
+            </Button>
 
-            <div className="hidden md:flex space-x-2">
-              <Link href="/login">
-                <Button variant="ghost" size="sm">
-                  Log in
-                </Button>
-              </Link>
-              <Link href="/signup">
-                <Button size="sm">Sign up</Button>
-              </Link>
+            {/* Mobile Navigation - Visible on mobile only */}
+            <div className="md:hidden">
+              <MobileNav />
             </div>
 
-            {/* Mobile menu button */}
-            <button
-              onClick={toggleMenu}
-              className="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-100"
-              aria-expanded={isMenuOpen}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
-            </button>
+            {/* User Menu - Hidden on mobile */}
+            {user ? (
+              <div className="hidden md:block">
+                <DropdownMenu
+                  trigger={
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="flex items-center space-x-2"
+                    >
+                      <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                        <User className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <span className="hidden sm:inline text-sm">
+                        {user.displayName || "Account"}
+                      </span>
+                    </Button>
+                  }
+                  align="right"
+                >
+                  <div className="px-4 py-2 text-sm border-b border-gray-200 dark:border-gray-700">
+                    <div className="font-medium text-gray-900 dark:text-white">
+                      {user.displayName || "Anonymous User"}
+                    </div>
+                    <div className="text-gray-500 text-xs">{user.email}</div>
+                  </div>
+
+                  <DropdownMenuItem onClick={() => router.push("/profile")}>
+                    <div className="flex items-center">
+                      <Settings className="w-4 h-4 mr-2" />
+                      Account Settings
+                    </div>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem onClick={() => router.push("/analytics")}>
+                    <div className="flex items-center">
+                      <BarChart3 className="w-4 h-4 mr-2" />
+                      Analytics
+                    </div>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuDivider />
+
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="text-red-600 dark:text-red-400"
+                  >
+                    <div className="flex items-center">
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <div className="hidden md:flex items-center space-x-2">
+                <Link href="/login">
+                  <Button variant="ghost" size="sm">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button size="sm">Sign Up</Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-4 pt-2 pb-3 space-y-1 border-t border-gray-200 dark:border-gray-800">
-            <Link
-              href="/dashboard"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-100"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/environments"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-100"
-            >
-              Environments
-            </Link>
-            <Link
-              href="/analytics"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-100"
-            >
-              Analytics
-            </Link>
-            <Link
-              href="/ui-demo"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-100"
-            >
-              UI Demo
-            </Link>
-            <Link
-              href="/timer"
-              className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
-            >
-              Timer
-            </Link>
-            <Link
-              href="/focus"
-              className="text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
-            >
-              Focus
-            </Link>
-
-            <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-800">
-              <Link
-                href="/login"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-100"
-              >
-                Log in
-              </Link>
-              <Link
-                href="/signup"
-                className="block px-3 py-2 mt-1 rounded-md text-base font-medium bg-primary-600 text-white hover:bg-primary-700 p-2"
-              >
-                Sign up
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   );
 }

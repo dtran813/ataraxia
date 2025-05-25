@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useAuth } from "@/contexts/auth/AuthContext";
-import { Button } from "@/components/ui/Button";
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -41,11 +40,7 @@ export function MobileNav() {
 
   return (
     <DropdownMenu
-      trigger={
-        <Button variant="ghost" size="sm" className="w-9 h-9 p-0">
-          <Menu className="w-5 h-5" />
-        </Button>
-      }
+      trigger={<Menu className="w-5 h-5" />}
       align="right"
       className="w-64"
     >

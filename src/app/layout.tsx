@@ -18,9 +18,12 @@ const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ataraxia | Focus & Productivity App",
+  title: {
+    template: "%s | Ataraxia",
+    default: "Ataraxia - Focus Better, Achieve More",
+  },
   description:
-    "Enhance productivity and wellbeing through customizable focus environments and smart breaks",
+    "Create the perfect environment for deep work with customizable focus environments, productivity timers, and ambient audio.",
 };
 
 export default function RootLayout({
@@ -29,14 +32,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${robotoMono.variable}`}>
-      <body className="bg-light-100 dark:bg-dark-200 min-h-screen">
-        <AuthProvider>
-          <ThemeProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${inter.variable} ${robotoMono.variable} font-sans antialiased`}
+      >
+        <ThemeProvider>
+          <AuthProvider>
             {children}
-            <Toaster position="bottom-right" />
-          </ThemeProvider>
-        </AuthProvider>
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 4000,
+                style: {
+                  background: "var(--color-light-100)",
+                  color: "var(--color-dark-300)",
+                  border: "1px solid var(--color-primary-200)",
+                },
+                className:
+                  "dark:!bg-dark-200 dark:!text-light-100 dark:!border-primary-800",
+              }}
+            />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

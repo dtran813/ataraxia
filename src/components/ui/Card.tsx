@@ -9,7 +9,7 @@ const Card = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
       <div
         ref={ref}
         className={cn(
-          "rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-dark-100 shadow-sm overflow-hidden",
+          "rounded-lg border border-primary-200 dark:border-primary-800 bg-light-100 dark:bg-dark-100 shadow-sm overflow-hidden",
           className
         )}
         {...props}
@@ -40,7 +40,10 @@ const CardTitle = forwardRef<
   return (
     <h3
       ref={ref}
-      className={cn("text-lg font-semibold", className)}
+      className={cn(
+        "text-lg font-semibold text-gray-900 dark:text-light-100",
+        className
+      )}
       {...props}
     />
   );
@@ -54,7 +57,7 @@ const CardDescription = forwardRef<
   return (
     <p
       ref={ref}
-      className={cn("text-sm text-gray-500 dark:text-gray-400", className)}
+      className={cn("text-sm text-gray-600 dark:text-gray-400", className)}
       {...props}
     />
   );
@@ -77,7 +80,7 @@ const CardFooter = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "px-6 py-4 flex items-center border-t border-gray-200 dark:border-gray-800",
+        "px-6 py-4 flex items-center border-t border-primary-200 dark:border-primary-800",
         className
       )}
       {...props}

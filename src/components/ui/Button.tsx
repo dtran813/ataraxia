@@ -3,6 +3,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 const buttonVariants = cva(
   // Base styles applied to all button variants
@@ -10,14 +11,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary-600 text-white hover:bg-primary-700",
-        destructive: "bg-red-500 text-white hover:bg-red-600",
+        default:
+          "bg-primary-600 text-white hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-700",
+        destructive:
+          "bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700",
         outline:
-          "border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dark-100",
+          "border border-primary-300 dark:border-primary-700 hover:bg-primary-50 dark:hover:bg-primary-950 text-primary-700 dark:text-primary-300",
         subtle:
-          "bg-gray-100 dark:bg-dark-100 hover:bg-gray-200 dark:hover:bg-dark-200 text-gray-900 dark:text-gray-100",
+          "bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 text-primary-900 dark:text-primary-100",
         ghost:
-          "hover:bg-gray-100 dark:hover:bg-dark-100 hover:text-gray-900 dark:hover:text-gray-100",
+          "hover:bg-primary-100 dark:hover:bg-primary-900 hover:text-primary-900 dark:hover:text-primary-100",
         link: "underline-offset-4 hover:underline text-primary-600 dark:text-primary-400",
       },
       size: {
@@ -45,13 +48,38 @@ export interface ButtonProps
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, fullWidth, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      fullWidth,
+      loading,
+      children,
+      disabled,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <button
         className={cn(buttonVariants({ variant, size, fullWidth, className }))}
         ref={ref}
+        disabled={disabled || loading}
         {...props}
-      />
+      >
+        {loading ? (
+          <div className="flex items-center">
+            <LoadingSpinner
+              size={size === "sm" ? "sm" : size === "lg" ? "md" : "sm"}
+              className="mr-2 text-current"
+            />
+            <span>Loading...</span>
+          </div>
+        ) : (
+          children
+        )}
+      </button>
     );
   }
 );

@@ -8,7 +8,7 @@ interface MainLayoutProps {
 
 export function MainLayout({ children, fullHeight = false }: MainLayoutProps) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative">
       <Header />
       <main className={`flex-grow ${fullHeight ? "flex flex-col" : ""}`}>
         {children}

@@ -6,7 +6,7 @@ import { defaultEnvironments } from "@/data/environment";
 interface EnvironmentState {
   // Cuurent environment state
   currentEnvironmentId: string | null;
-  isAudioMuted: boolean;
+  isAudioPaused: boolean;
   masterVolume: number; // 0-100
   trackVolumes: Record<string, number>; // Track ID -> Volume (0-100)
 
@@ -15,7 +15,7 @@ interface EnvironmentState {
 
   // Actions
   setCurrentEnvironment: (environmentId: string) => void;
-  setIsAudioMuted: (isMuted: boolean) => void;
+  setIsAudioPaused: (isMuted: boolean) => void;
   setMasterVolume: (volume: number) => void;
   setTrackVolume: (trackId: string, volume: number) => void;
 
@@ -26,7 +26,7 @@ export const useEnvironmentStore = create<EnvironmentState>()(
   persist(
     (set, get) => ({
       currentEnvironmentId: "forest",
-      isAudioMuted: false,
+      isAudioPaused: false,
       masterVolume: 80,
       trackVolumes: {},
       environments: defaultEnvironments,
@@ -35,8 +35,8 @@ export const useEnvironmentStore = create<EnvironmentState>()(
         set({ currentEnvironmentId: environmentId });
       },
 
-      setIsAudioMuted: (muted: boolean) => {
-        set({ isAudioMuted: muted });
+      setIsAudioPaused: (muted: boolean) => {
+        set({ isAudioPaused: muted });
       },
 
       setMasterVolume: (volume: number) => {
@@ -67,7 +67,7 @@ export const useEnvironmentStore = create<EnvironmentState>()(
       name: "ataraxia-environment-storage",
       partialize: (state) => ({
         currentEnvironmentId: state.currentEnvironmentId,
-        isAudioMuted: state.isAudioMuted,
+        isAudioPaused: state.isAudioPaused,
         masterVolume: state.masterVolume,
         trackVolumes: state.trackVolumes,
       }),

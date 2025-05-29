@@ -4,13 +4,13 @@ import { useEnvironmentStore } from "@/store/useEnvironmentStore";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Label } from "@/components/ui/Label";
-import { Volume2, VolumeX } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function AudioControls() {
   const {
-    isAudioMuted,
-    setIsAudioMuted,
+    isAudioPaused,
+    setIsAudioPaused,
     masterVolume,
     setMasterVolume,
     trackVolumes,
@@ -27,14 +27,14 @@ export function AudioControls() {
           <div className="flex items-center justify-between mb-2">
             <Label>Master Volume</Label>
             <button
-              onClick={() => setIsAudioMuted(!isAudioMuted)}
+              onClick={() => setIsAudioPaused(!isAudioPaused)}
               className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
-              aria-label={isAudioMuted ? "Unmute" : "Mute"}
+              aria-label={isAudioPaused ? "Unmute" : "Mute"}
             >
-              {isAudioMuted ? (
-                <VolumeX className="w-5 h-5" />
+              {isAudioPaused ? (
+                <Play className="w-5 h-5" />
               ) : (
-                <Volume2 className="w-5 h-5" />
+                <Pause className="w-5 h-5" />
               )}
             </button>
           </div>
@@ -46,9 +46,9 @@ export function AudioControls() {
             onChange={(e) => setMasterVolume(Number(e.target.value))}
             className={cn(
               "w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer",
-              isAudioMuted && "opacity-50"
+              isAudioPaused && "opacity-50"
             )}
-            disabled={isAudioMuted}
+            disabled={isAudioPaused}
           />
           <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
             <span>0%</span>
@@ -83,9 +83,9 @@ export function AudioControls() {
                   }
                   className={cn(
                     "w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer",
-                    isAudioMuted && "opacity-50"
+                    isAudioPaused && "opacity-50"
                   )}
-                  disabled={isAudioMuted}
+                  disabled={isAudioPaused}
                 />
               </div>
             ))

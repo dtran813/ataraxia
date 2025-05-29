@@ -5,7 +5,7 @@ import { Howl } from "howler";
 import { useEnvironmentStore } from "@/store/useEnvironmentStore";
 
 export function useAudioPlayer() {
-  const { getCurrentEnvironment, isAudioMuted, masterVolume, trackVolumes } =
+  const { getCurrentEnvironment, isAudioPaused, masterVolume, trackVolumes } =
     useEnvironmentStore();
 
   // Store Howl instances for each track
@@ -77,13 +77,13 @@ export function useAudioPlayer() {
 
       const trackVolume = trackVolumes[track.id] ?? track.defaultVolume;
 
-      const effectiveVolume = isAudioMuted
+      const effectiveVolume = isAudioPaused
         ? 0
         : (masterVolume / 100) * (trackVolume / 100);
 
       howl.volume(effectiveVolume);
 
-      if (isAudioMuted) {
+      if (isAudioPaused) {
         howl.pause();
       } else if (!howl.playing()) {
         howl.play();
@@ -92,7 +92,7 @@ export function useAudioPlayer() {
   }, [
     isLoaded,
     getCurrentEnvironment,
-    isAudioMuted,
+    isAudioPaused,
     masterVolume,
     trackVolumes,
   ]);

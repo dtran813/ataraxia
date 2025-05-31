@@ -2,16 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { useTimerStore } from "@/store/useTimerStore";
+import { useTimer } from "@/hooks/useTimer";
 import { cn } from "@/lib/utils";
 import { EnvironmentLayer } from "@/components/focus/EnvironmentLayer";
 import { ControlPanel } from "@/components/focus/ControlPanel";
 import { EnvironmentPicker } from "@/components/focus/EnvironmentPicker";
 import { FloatingTimer } from "@/components/focus/FloatingTimer";
+import { UserMenu } from "@/components/focus/UserMenu";
 
 export default function FocusPage() {
   const [showControls, setShowControls] = useState(true);
   const [lastActivity, setLastActivity] = useState(Date.now());
   const { isRunning } = useTimerStore();
+
+  useTimer();
 
   // Auto-hide controls after inactivity when timer is running
   useEffect(() => {
@@ -58,7 +62,7 @@ export default function FocusPage() {
 
   return (
     <div
-      className="relative w-full h-screen overflow-hidden bg-black"
+      className="relative w-full h-screen overflow-hidden bg-white dark:bg-black"
       onMouseMove={handleMouseMove}
     >
       <EnvironmentLayer />
@@ -75,13 +79,14 @@ export default function FocusPage() {
         <div className="pointer-events-auto">
           <ControlPanel />
           <EnvironmentPicker />
+          <UserMenu />
         </div>
       </div>
 
       {/* Subtle hint for hidden controls */}
       {!showControls && isRunning && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/40 rounded-lg p-2 border border-white/10 animate-pulse">
-          <p className="text-white/60 text-sm">
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/40 dark:bg-black/60 backdrop-blur-sm rounded-lg p-2 border border-white/10 dark:border-white/20 animate-pulse">
+          <p className="text-white/60 dark:text-white/80 text-sm">
             Move mouse to edges to show controls
           </p>
         </div>

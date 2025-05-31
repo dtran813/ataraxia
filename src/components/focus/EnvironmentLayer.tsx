@@ -16,7 +16,7 @@ export function EnvironmentLayer() {
 
   if (!environment) {
     return (
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-black" />
     );
   }
 
@@ -33,7 +33,7 @@ export function EnvironmentLayer() {
             priority
           />
           {/* Overlay for better text contrast */}
-          <div className="absolute inset-0 bg-black/20" />
+          <div className="absolute inset-0 bg-black/20 dark:bg-black/30" />
         </>
       ) : (
         <div
@@ -44,7 +44,7 @@ export function EnvironmentLayer() {
 
       {/* Loading state */}
       {!isImageLoaded && environment.backgroundType === "image" && (
-        <div className="absolute inset-0 bg-gray-900 animate-pulse" />
+        <div className="absolute inset-0 bg-gray-200 dark:bg-gray-900 animate-pulse" />
       )}
     </div>
   );

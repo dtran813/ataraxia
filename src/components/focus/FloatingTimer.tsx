@@ -77,11 +77,11 @@ export function FloatingTimer({ className }: FloatingTimerProps) {
 
   return (
     <div className={cn("relative flex items-center justify-center", className)}>
-      <div className="bg-black/40 backdrop-blur-xl rounded-3xl p-4 border border-white/10">
+      <div className="bg-white/80 dark:bg-black/40 backdrop-blur-xl rounded-3xl p-4 border border-gray-200/50 dark:border-white/10 shadow-2xl">
         {/* Mode indicator */}
         <div className="text-center mb-2">
           <div className="text-xl mb-2">{getModeEmoji()}</div>
-          <p className="text-white/80 text-sm uppercase tracking-wide font-medium">
+          <p className="text-gray-700 dark:text-white/80 text-sm uppercase tracking-wide font-medium">
             {mode === "shortBreak"
               ? "Short Break"
               : mode === "longBreak"
@@ -91,12 +91,7 @@ export function FloatingTimer({ className }: FloatingTimerProps) {
         </div>
 
         {/* Circular timer */}
-        <div
-          className={cn(
-            "rounded-full p-4 relative",
-            getModeColors().background
-          )}
-        >
+        <div className="relative">
           <svg
             width="200"
             height="200"
@@ -108,7 +103,7 @@ export function FloatingTimer({ className }: FloatingTimerProps) {
               cx="125"
               cy="125"
               r={radius}
-              className="stroke-gray-200 dark:stroke-gray-700"
+              className="stroke-gray-300 dark:stroke-gray-700"
               strokeWidth="10"
               fill="none"
             />
@@ -131,15 +126,15 @@ export function FloatingTimer({ className }: FloatingTimerProps) {
           </svg>
 
           {/* Timer display */}
-          <div className="absolute inset-0 flex items-center justify-center text-center mb-6 ">
-            <p className="text-6xl font-light text-white tabular-nums tracking-tight">
+          <div className="absolute inset-0 flex items-center justify-center text-center">
+            <p className="text-6xl font-light text-gray-900 dark:text-white tabular-nums tracking-tight">
               {formatTime(timeRemaining)}
             </p>
           </div>
         </div>
 
         {/* Play/pause button */}
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-4">
           <button
             onClick={isRunning ? pauseTimer : startTimer}
             className={cn(
@@ -148,9 +143,9 @@ export function FloatingTimer({ className }: FloatingTimerProps) {
             )}
           >
             {isRunning ? (
-              <Pause className="w-8 h-8 text-white" fill="white" />
+              <Pause className="w-6 h-6 text-white" fill="white" />
             ) : (
-              <Play className="w-8 h-8 text-white ml-1" fill="white" />
+              <Play className="w-6 h-6 text-white ml-1" fill="white" />
             )}
           </button>
         </div>

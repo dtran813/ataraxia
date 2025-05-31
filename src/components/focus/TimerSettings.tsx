@@ -56,12 +56,14 @@ export function TimerSettings({ onClose }: TimerSettingsProps) {
   ];
 
   return (
-    <div className="bg-black/60 backdrop-blur-xl rounded-2xl p-6 border border-white/10 w-96">
+    <div className="bg-white/90 dark:bg-black/60 backdrop-blur-xl rounded-2xl p-6 border border-gray-200/50 dark:border-white/10 w-96 shadow-2xl">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-white text-lg font-medium">Timer Settings</h3>
+        <h3 className="text-gray-900 dark:text-white text-lg font-medium">
+          Timer Settings
+        </h3>
         <button
           onClick={onClose}
-          className="text-white/70 hover:text-white transition-colors"
+          className="text-gray-500 dark:text-white/70 hover:text-gray-700 dark:hover:text-white transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -71,8 +73,10 @@ export function TimerSettings({ onClose }: TimerSettingsProps) {
         {settings.map((setting) => (
           <div key={setting.key}>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-white/80 text-sm">{setting.label}</span>
-              <span className="text-white text-sm">
+              <span className="text-gray-600 dark:text-white/80 text-sm">
+                {setting.label}
+              </span>
+              <span className="text-gray-900 dark:text-white text-sm">
                 {setting.value} {setting.unit}
               </span>
             </div>
@@ -86,7 +90,7 @@ export function TimerSettings({ onClose }: TimerSettingsProps) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 updateSettings({ [setting.key]: Number(e.target.value) } as any)
               }
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+              className="w-full h-2 bg-gray-200 dark:bg-white/20 rounded-lg cursor-pointer"
             />
           </div>
         ))}

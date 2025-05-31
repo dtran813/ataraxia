@@ -45,7 +45,7 @@ export function ControlPanel() {
     <>
       {/* Control Bar */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-        <div className="bg-black/40 backdrop-blur-xl rounded-2xl p-4 border border-white/10">
+        <div className="bg-white/80 dark:bg-black/40 backdrop-blur-xl rounded-2xl p-4 border border-gray-200/50 dark:border-white/10 shadow-2xl">
           <div className="flex items-center space-x-6">
             {controls.map((control) => {
               const Icon = control.icon;
@@ -58,8 +58,8 @@ export function ControlPanel() {
                   className={cn(
                     "w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-105",
                     isActive
-                      ? "bg-white/20 text-white"
-                      : "text-white/70 hover:text-white hover:bg-white/10"
+                      ? "bg-primary-100 dark:bg-white/20 text-primary-600 dark:text-white"
+                      : "text-gray-600 dark:text-white/70 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"
                   )}
                   title={control.label}
                 >

@@ -32,6 +32,8 @@ interface TimerState {
   setMode: (mode: TimerMode) => void;
   updateSettings: (settings: Partial<TimerSettings>) => void;
   toggleAutoStart: () => void;
+  onTimerComplete?: () => void; // Callback for timer completion
+  setOnTimerComplete: (callback: () => void) => void;
 }
 
 interface TimerSettings {
@@ -60,6 +62,7 @@ export const useTimerStore = create<TimerState>()(
       completedSessions: 0,
       totalFocusTime: 0,
       totalBreakTime: 0,
+      onTimerComplete: undefined,
 
       // Actions
       startTimer: () => set({ isRunning: true }),
@@ -137,6 +140,7 @@ export const useTimerStore = create<TimerState>()(
           mode,
           totalFocusTime,
           totalBreakTime,
+          onTimerComplete,
         } = get();
 
         if (!isRunning || timeRemaining <= 0) return;
@@ -152,10 +156,16 @@ export const useTimerStore = create<TimerState>()(
 
         // If timer completed, handle the transition
         if (newTimeRemaining <= 0) {
+          // Call the completion callback BEFORE transitioning
+          onTimerComplete?.();
           get().skipTimer();
         } else {
           set({ timeRemaining: newTimeRemaining });
         }
+      },
+
+      setOnTimerComplete: (callback: () => void) => {
+        set({ onTimerComplete: callback });
       },
 
       setMode: (mode: TimerMode) => {

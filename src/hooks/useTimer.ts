@@ -5,7 +5,8 @@ import { Howl } from "howler";
 import { useTimerStore } from "@/store/useTimerStore";
 
 export function useTimer() {
-  const { isRunning, tick, mode, timeRemaining } = useTimerStore();
+  const { isRunning, tick, mode, timeRemaining, setOnTimerComplete } =
+    useTimerStore();
 
   const timerCompleteSoundRef = useRef<Howl | null>(null);
   const tickSoundRef = useRef<Howl | null>(null);
@@ -15,13 +16,13 @@ export function useTimer() {
     // Timer complete sound
     timerCompleteSoundRef.current = new Howl({
       src: ["/sounds/timer-complete.mp3"],
-      volume: 0.5,
+      volume: 0.7,
     });
 
     // Tick sound (for last 3 seconds)
     tickSoundRef.current = new Howl({
       src: ["/sounds/tick.mp3"],
-      volume: 0.3,
+      volume: 0.7,
     });
 
     return () => {
@@ -51,18 +52,19 @@ export function useTimer() {
     };
   }, [isRunning, tick]);
 
-  // Play sounds based on timer state
+  // Play tick sound in last few seconds
   useEffect(() => {
-    // Play tick sound in last few seconds
     if (isRunning && timeRemaining <= 3 && timeRemaining > 0) {
       tickSoundRef.current?.play();
     }
+  }, [timeRemaining, isRunning]);
 
-    // Play completion sound when timer hits zero
-    if (timeRemaining === 0) {
+  // Set up timer completion callback
+  useEffect(() => {
+    const handleTimerComplete = () => {
       timerCompleteSoundRef.current?.play();
 
-      // Request notification permission and show notification
+      // Show notification
       if (Notification.permission === "granted") {
         new Notification(
           `${mode === "focus" ? "Focus session" : "Break"} completed!`,
@@ -71,12 +73,13 @@ export function useTimer() {
               mode === "focus"
                 ? "Time for a break!"
                 : "Time to get back to work!",
-            icon: "/favicon.ico",
           }
         );
       }
-    }
-  }, [timeRemaining, isRunning, mode]);
+    };
+
+    setOnTimerComplete(handleTimerComplete);
+  }, [mode, setOnTimerComplete]);
 
   // Request notification permission
   useEffect(() => {

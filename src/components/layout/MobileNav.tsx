@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useAuth } from "@/contexts/auth/AuthContext";
 import {
   DropdownMenu,
@@ -20,13 +19,11 @@ import { useRouter } from "next/navigation";
 
 export function MobileNav() {
   const { user, signOut } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
   const handleSignOut = async () => {
     try {
       await signOut();
-      setIsOpen(false);
       router.push("/");
     } catch (error) {
       console.error("Sign out error:", error);
@@ -35,7 +32,6 @@ export function MobileNav() {
 
   const handleNavigation = (path: string) => {
     router.push(path);
-    setIsOpen(false);
   };
 
   return (

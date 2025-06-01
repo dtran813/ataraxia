@@ -14,7 +14,6 @@ import {
   User,
   Settings,
   LogOut,
-  Timer,
   Mountain,
   BarChart3,
 } from "lucide-react";
@@ -81,14 +80,6 @@ export function Header() {
               <span>Focus</span>
             </Link>
 
-            <Link
-              href="/timer"
-              className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
-            >
-              <Timer className="w-4 h-4" />
-              <span>Timer</span>
-            </Link>
-
             {user && (
               <Link
                 href="/analytics"
@@ -123,18 +114,14 @@ export function Header() {
               <div className="hidden md:block">
                 <DropdownMenu
                   trigger={
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="flex items-center space-x-2"
-                    >
+                    <>
                       <div className="w-8 h-8 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center">
                         <User className="w-4 h-4 text-primary-600 dark:text-primary-400" />
                       </div>
                       <span className="hidden sm:inline text-sm">
                         {user.displayName || "Account"}
                       </span>
-                    </Button>
+                    </>
                   }
                   align="right"
                 >

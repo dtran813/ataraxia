@@ -26,7 +26,7 @@ export const useEnvironmentStore = create<EnvironmentState>()(
   persist(
     (set, get) => ({
       currentEnvironmentId: "forest",
-      isAudioPaused: false,
+      isAudioPaused: true,
       masterVolume: 80,
       trackVolumes: {},
       environments: defaultEnvironments,

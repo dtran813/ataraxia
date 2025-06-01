@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { formatTime, calculateProgress } from "@/lib/utils/time";
 import { cn } from "@/lib/utils";
 import { useTimerStore } from "@/store/useTimerStore";
@@ -10,6 +11,8 @@ interface FloatingTimerProps {
 }
 
 export function FloatingTimer({ className }: FloatingTimerProps) {
+  const [isHydrated, setIsHydrated] = useState(false);
+
   const {
     mode,
     timeRemaining,
@@ -20,6 +23,26 @@ export function FloatingTimer({ className }: FloatingTimerProps) {
     shortBreakDuration,
     longBreakDuration,
   } = useTimerStore();
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  if (!isHydrated) {
+    return (
+      <div
+        className={cn("relative flex items-center justify-center", className)}
+      >
+        <div className="bg-white/80 dark:bg-black/40 backdrop-blur-xl rounded-3xl p-4 border border-gray-200/50 dark:border-white/10 shadow-2xl">
+          <div className="w-[200px] h-[280px] flex items-center justify-center">
+            <div className="animate-pulse text-gray-400 dark:text-gray-600">
+              Loading...
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Calculate total time based on current mode
   const getTotalTime = () => {

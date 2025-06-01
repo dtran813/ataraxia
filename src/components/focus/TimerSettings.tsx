@@ -2,6 +2,7 @@
 
 import { useTimerStore } from "@/store/useTimerStore";
 import { X } from "lucide-react";
+import { Switch } from "@/components/ui/Switch";
 
 interface TimerSettingsProps {
   onClose: () => void;
@@ -13,7 +14,9 @@ export function TimerSettings({ onClose }: TimerSettingsProps) {
     shortBreakDuration,
     longBreakDuration,
     sessionsBeforeLongBreak,
+    isAutoStartEnabled,
     updateSettings,
+    toggleAutoStart,
   } = useTimerStore();
 
   const settings = [
@@ -94,6 +97,15 @@ export function TimerSettings({ onClose }: TimerSettingsProps) {
             />
           </div>
         ))}
+
+        <div className="mt-6">
+          <Switch
+            checked={isAutoStartEnabled}
+            onChange={toggleAutoStart}
+            label="Auto-start Timers"
+            description="Automatically start the next timer when the current one ends"
+          />
+        </div>
       </div>
     </div>
   );

@@ -50,7 +50,7 @@ export const useTimerStore = create<TimerState>()(
       mode: "focus",
       timeRemaining: 25 * 60, // 25 minutes in seconds
       isRunning: false,
-      isAutoStartEnabled: false,
+      isAutoStartEnabled: true, // Auto-start next timer by default
 
       // Default settings
       focusDuration: 25, // 25 minutes
@@ -227,6 +227,27 @@ export const useTimerStore = create<TimerState>()(
         totalFocusTime: state.totalFocusTime,
         totalBreakTime: state.totalBreakTime,
       }),
+
+      // Initialize timeRemaining based on the current mode and settings
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          const duration = (() => {
+            switch (state.mode) {
+              case "focus":
+                return state.focusDuration;
+              case "shortBreak":
+                return state.shortBreakDuration;
+              case "longBreak":
+                return state.longBreakDuration;
+              default:
+                return state.focusDuration;
+            }
+          })();
+
+          state.timeRemaining = duration * 60;
+          state.isRunning = false; // Always start paused after refresh
+        }
+      },
     }
   )
 );

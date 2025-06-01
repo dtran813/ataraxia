@@ -16,13 +16,13 @@ export function useTimer() {
     // Timer complete sound
     timerCompleteSoundRef.current = new Howl({
       src: ["/sounds/timer-complete.mp3"],
-      volume: 0.7,
+      volume: 0.8,
     });
 
     // Tick sound (for last 3 seconds)
     tickSoundRef.current = new Howl({
       src: ["/sounds/tick.mp3"],
-      volume: 0.7,
+      volume: 0.8,
     });
 
     return () => {

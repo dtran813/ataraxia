@@ -1,4 +1,5 @@
 // src/store/useTimerStore.ts
+import { SECONDS_IN_MINUTE } from "@/lib/constants";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -48,7 +49,7 @@ export const useTimerStore = create<TimerState>()(
     (set, get) => ({
       // Initial state
       mode: "focus",
-      timeRemaining: 25 * 60, // 25 minutes in seconds
+      timeRemaining: 25 * SECONDS_IN_MINUTE, // 25 minutes in seconds
       isRunning: false,
       isAutoStartEnabled: true, // Auto-start next timer by default
 
@@ -76,13 +77,13 @@ export const useTimerStore = create<TimerState>()(
 
         switch (mode) {
           case "focus":
-            newTimeRemaining = focusDuration * 60;
+            newTimeRemaining = focusDuration * SECONDS_IN_MINUTE;
             break;
           case "shortBreak":
-            newTimeRemaining = shortBreakDuration * 60;
+            newTimeRemaining = shortBreakDuration * SECONDS_IN_MINUTE;
             break;
           case "longBreak":
-            newTimeRemaining = longBreakDuration * 60;
+            newTimeRemaining = longBreakDuration * SECONDS_IN_MINUTE;
             break;
         }
 
@@ -114,15 +115,15 @@ export const useTimerStore = create<TimerState>()(
 
           if (newCompletedSessions % sessionsBeforeLongBreak === 0) {
             nextMode = "longBreak";
-            nextTimeRemaining = longBreakDuration * 60;
+            nextTimeRemaining = longBreakDuration * SECONDS_IN_MINUTE;
           } else {
             nextMode = "shortBreak";
-            nextTimeRemaining = shortBreakDuration * 60;
+            nextTimeRemaining = shortBreakDuration * SECONDS_IN_MINUTE;
           }
         } else {
           // After any break, go back to focus
           nextMode = "focus";
-          nextTimeRemaining = focusDuration * 60;
+          nextTimeRemaining = focusDuration * SECONDS_IN_MINUTE;
         }
 
         set({
@@ -174,13 +175,13 @@ export const useTimerStore = create<TimerState>()(
 
         switch (mode) {
           case "focus":
-            newTimeRemaining = focusDuration * 60;
+            newTimeRemaining = focusDuration * SECONDS_IN_MINUTE;
             break;
           case "shortBreak":
-            newTimeRemaining = shortBreakDuration * 60;
+            newTimeRemaining = shortBreakDuration * SECONDS_IN_MINUTE;
             break;
           case "longBreak":
-            newTimeRemaining = longBreakDuration * 60;
+            newTimeRemaining = longBreakDuration * SECONDS_IN_MINUTE;
             break;
         }
 
@@ -197,11 +198,11 @@ export const useTimerStore = create<TimerState>()(
 
         // If updating the duration of the current mode, also update the time remaining
         if (settings.focusDuration && mode === "focus") {
-          newTimeRemaining = settings.focusDuration * 60;
+          newTimeRemaining = settings.focusDuration * SECONDS_IN_MINUTE;
         } else if (settings.shortBreakDuration && mode === "shortBreak") {
-          newTimeRemaining = settings.shortBreakDuration * 60;
+          newTimeRemaining = settings.shortBreakDuration * SECONDS_IN_MINUTE;
         } else if (settings.longBreakDuration && mode === "longBreak") {
-          newTimeRemaining = settings.longBreakDuration * 60;
+          newTimeRemaining = settings.longBreakDuration * SECONDS_IN_MINUTE;
         }
 
         set({
@@ -244,7 +245,7 @@ export const useTimerStore = create<TimerState>()(
             }
           })();
 
-          state.timeRemaining = duration * 60;
+          state.timeRemaining = duration * SECONDS_IN_MINUTE;
           state.isRunning = false; // Always start paused after refresh
         }
       },

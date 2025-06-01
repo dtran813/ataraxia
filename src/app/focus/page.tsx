@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useTimerStore } from "@/store/useTimerStore";
 import { useTimer } from "@/hooks/useTimer";
 import { cn } from "@/lib/utils";
@@ -12,53 +12,59 @@ import { UserMenu } from "@/components/focus/UserMenu";
 
 export default function FocusPage() {
   const [showControls, setShowControls] = useState(true);
-  const [lastActivity, setLastActivity] = useState(Date.now());
+  const lastActivityRef = useRef(Date.now());
   const { isRunning } = useTimerStore();
 
   useTimer();
 
+  const updateActivity = useCallback(() => {
+    lastActivityRef.current = Date.now();
+  }, []);
+
   // Auto-hide controls after inactivity when timer is running
   useEffect(() => {
-    const handleActivity = () => setLastActivity(Date.now());
-
     if (isRunning) {
-      document.addEventListener("mousemove", handleActivity);
-      document.addEventListener("keydown", handleActivity);
+      document.addEventListener("mousemove", updateActivity);
+      document.addEventListener("keydown", updateActivity);
 
       const timer = setInterval(() => {
-        if (Date.now() - lastActivity > 5000) {
+        const timeSinceActivity = Date.now() - lastActivityRef.current;
+        if (timeSinceActivity > 5000) {
           // 5 seconds of inactivity
           setShowControls(false);
         }
       }, 1000);
 
       return () => {
-        document.removeEventListener("mousemove", handleActivity);
-        document.removeEventListener("keydown", handleActivity);
+        document.removeEventListener("mousemove", updateActivity);
+        document.removeEventListener("keydown", updateActivity);
         clearInterval(timer);
       };
     } else {
       setShowControls(true);
     }
-  }, [isRunning, lastActivity]);
+  }, [isRunning, updateActivity]);
 
   // Show controls on hover near edges
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY, currentTarget } = e;
-    const { clientWidth, clientHeight } = currentTarget as HTMLElement;
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      const { clientX, clientY, currentTarget } = e;
+      const { clientWidth, clientHeight } = currentTarget as HTMLElement;
 
-    const edgeThreshold = 100;
-    const nearEdge =
-      clientX < edgeThreshold ||
-      clientX > clientWidth - edgeThreshold ||
-      clientY < edgeThreshold ||
-      clientY > clientHeight - edgeThreshold;
+      const edgeThreshold = 100;
+      const nearEdge =
+        clientX < edgeThreshold ||
+        clientX > clientWidth - edgeThreshold ||
+        clientY < edgeThreshold ||
+        clientY > clientHeight - edgeThreshold;
 
-    if (nearEdge || !isRunning) {
-      setShowControls(true);
-      setLastActivity(Date.now());
-    }
-  };
+      if (nearEdge || !isRunning) {
+        setShowControls(true);
+        updateActivity();
+      }
+    },
+    [isRunning, updateActivity]
+  );
 
   return (
     <div

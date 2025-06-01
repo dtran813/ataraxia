@@ -5,8 +5,13 @@ import { Howl } from "howler";
 import { useEnvironmentStore } from "@/store/useEnvironmentStore";
 
 export function useAudioPlayer() {
-  const { getCurrentEnvironment, isAudioPaused, masterVolume, trackVolumes } =
-    useEnvironmentStore();
+  const {
+    currentEnvironmentId,
+    getCurrentEnvironment,
+    isAudioPaused,
+    masterVolume,
+    trackVolumes,
+  } = useEnvironmentStore();
 
   // Store Howl instances for each track
   const audioTracksRef = useRef<Record<string, Howl>>({});
@@ -14,8 +19,16 @@ export function useAudioPlayer() {
 
   // Load audio tracks whenever the environment changes
   useEffect(() => {
+    console.log("useAudioPlayer effect triggered");
     const currentEnvironment = getCurrentEnvironment();
-    if (!currentEnvironment) return;
+    console.log(
+      "Loading audio tracks for environment:",
+      currentEnvironment?.id
+    );
+    if (!currentEnvironment) {
+      setIsLoaded(false);
+      return;
+    }
 
     const tracks = currentEnvironment.audioTracks;
 
@@ -27,6 +40,12 @@ export function useAudioPlayer() {
 
     audioTracksRef.current = {};
     setIsLoaded(false);
+
+    // If no tracks, mark as loaded
+    if (tracks.length === 0) {
+      setIsLoaded(true);
+      return;
+    }
 
     // Load new tracks
     let loadedCount = 0;
@@ -62,7 +81,7 @@ export function useAudioPlayer() {
       });
       audioTracksRef.current = {};
     };
-  }, [getCurrentEnvironment]);
+  }, [currentEnvironmentId, getCurrentEnvironment]);
 
   // Update volumes and play/pause based on mute state
   useEffect(() => {
@@ -84,13 +103,18 @@ export function useAudioPlayer() {
       howl.volume(effectiveVolume);
 
       if (isAudioPaused) {
-        howl.pause();
-      } else if (!howl.playing()) {
-        howl.play();
+        if (howl.playing()) {
+          howl.pause();
+        }
+      } else {
+        if (!howl.playing()) {
+          howl.play();
+        }
       }
     });
   }, [
     isLoaded,
+    currentEnvironmentId,
     getCurrentEnvironment,
     isAudioPaused,
     masterVolume,

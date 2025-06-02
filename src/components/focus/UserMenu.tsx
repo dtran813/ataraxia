@@ -95,7 +95,7 @@ export function UserMenu() {
                 </div>
               </div>
             ) : (
-              <div className="mb-6 pb-6 border-b border-gray-200 dark:border-white/20">
+              <div className="mb-6 pb-6 border-b border-gray-300 dark:border-white/20">
                 <div className="space-y-2">
                   <Link
                     href="/login"
@@ -153,7 +153,7 @@ export function UserMenu() {
             </div>
 
             {/* Quick Actions */}
-            <div className="mt-6 pt-4 border-t border-gray-200 dark:border-white/20">
+            <div className="mt-6 pt-4 border-t border-gray-300 dark:border-white/20">
               <Link
                 href="/"
                 onClick={() => setIsOpen(false)}

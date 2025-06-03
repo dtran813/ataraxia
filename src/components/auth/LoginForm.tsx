@@ -21,7 +21,7 @@ interface LoginFormProps {
 }
 
 export function LoginForm({
-  redirectTo = "/focus",
+  redirectTo = "/environments",
   onSuccess,
 }: LoginFormProps) {
   const [email, setEmail] = useState("");

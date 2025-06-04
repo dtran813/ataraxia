@@ -9,11 +9,14 @@ import { useEnvironmentStore } from "@/store/useEnvironmentStore";
 import { Environment } from "@/types";
 import { SidebarContent } from "@/components/environments/SidebarContent";
 import { EnvironmentCard } from "@/components/environments/EnvironmentCard";
+import CreateEnvironmentModal from "@/components/environments/CreateEnvironmentModal";
 
 export default function EnvironmentsPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const router = useRouter();
-  const { environments, setCurrentEnvironment } = useEnvironmentStore();
+  const { environments, setCurrentEnvironment, addEnvironment } =
+    useEnvironmentStore();
 
   // Filter environments by type
   const systemEnvironments = environments.filter(
@@ -27,6 +30,12 @@ export default function EnvironmentsPage() {
     setCurrentEnvironment(environment.id);
     // Navigate to focus mode with this environment
     router.push("/focus");
+  };
+
+  const handleCreateEnvironment = (environment: Environment) => {
+    addEnvironment(environment);
+    // Show success feedback or navigate to the environment
+    console.log("Environment created:", environment.name);
   };
 
   return (
@@ -78,6 +87,7 @@ export default function EnvironmentsPage() {
             <Button
               size="sm"
               className="flex items-center gap-2 cursor-pointer"
+              onClick={() => setIsCreateModalOpen(true)}
             >
               <Plus className="w-4 h-4" />
               Create
@@ -107,7 +117,10 @@ export default function EnvironmentsPage() {
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   {userEnvironments.length} environments
                 </span>
-                <Button className="flex items-center gap-2 cursor-pointer">
+                <Button
+                  className="flex items-center gap-2 cursor-pointer"
+                  onClick={() => setIsCreateModalOpen(true)}
+                >
                   <Plus className="w-4 h-4" />
                   Create New
                 </Button>
@@ -134,7 +147,10 @@ export default function EnvironmentsPage() {
                   <p className="text-gray-600 dark:text-gray-400 mb-4">
                     Create your first custom environment to get started
                   </p>
-                  <Button className="flex items-center gap-2 mx-auto cursor-pointer">
+                  <Button
+                    className="flex items-center gap-2 mx-auto cursor-pointer"
+                    onClick={() => setIsCreateModalOpen(true)}
+                  >
                     <Plus className="w-4 h-4" />
                     Create Environment
                   </Button>
@@ -166,6 +182,13 @@ export default function EnvironmentsPage() {
           </div>
         </div>
       </div>
+
+      {/* Create Environment Modal */}
+      <CreateEnvironmentModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSave={handleCreateEnvironment}
+      />
     </div>
   );
 }

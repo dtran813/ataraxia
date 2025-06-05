@@ -56,16 +56,15 @@ export default function CreateEnvironmentModal({
     Record<string, HTMLAudioElement>
   >({});
 
-  // Validation
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
     if (!formData.name.trim()) {
       newErrors.name = "Environment name is required";
     } else if (formData.name.length < 3) {
-      newErrors.name = "Name must be at least 3 characters";
+      newErrors.name = "Environment name must be at least 3 characters";
     } else if (formData.name.length > 50) {
-      newErrors.name = "Name must be less than 50 characters";
+      newErrors.name = "Environment name must be less than 50 characters";
     }
 
     if (formData.description.length > 200) {
@@ -147,7 +146,6 @@ export default function CreateEnvironmentModal({
     }
   };
 
-  // Tag handling
   const addTag = () => {
     const tag = newTag.trim().toLowerCase();
     if (
@@ -239,12 +237,13 @@ export default function CreateEnvironmentModal({
               )}
             >
               <Image
-                src={bg.thumbnail}
+                src={bg.url}
                 alt={bg.name}
+                fill
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black/20 flex items-end">
-                <div className="p-2 w-full">
+              <div className="absolute inset-0 bg-black/20 flex items-center">
+                <div className="p-2 mx-auto bg-black/10 backdrop-blur-sm rounded-lg">
                   <p className="text-white text-xs font-medium truncate">
                     {bg.name}
                   </p>
@@ -280,21 +279,26 @@ export default function CreateEnvironmentModal({
   ];
 
   return (
-    <Dialog isOpen={isOpen} onClose={handleClose} className="max-w-4xl">
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-6">
+    <Dialog
+      isOpen={isOpen}
+      showCloseButton={false}
+      onClose={handleClose}
+      className="max-w-4xl"
+    >
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-6 px-4">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
             Create Environment
           </h2>
           <button
             onClick={handleClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-200"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="space-y-6 max-h-[70vh] overflow-y-auto">
+        <div className="space-y-6 max-h-[70vh] overflow-y-auto px-4">
           {/* Basic Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -396,7 +400,9 @@ export default function CreateEnvironmentModal({
                     <CardContent className="p-3">
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
-                          <h4 className="font-medium text-sm">{track.name}</h4>
+                          <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300">
+                            {track.name}
+                          </h4>
                           <p className="text-xs text-gray-600 dark:text-gray-400">
                             {track.description}
                           </p>
@@ -410,9 +416,9 @@ export default function CreateEnvironmentModal({
                             className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                           >
                             {isPlaying ? (
-                              <Pause className="w-4 h-4" />
+                              <Pause className="w-4 h-4 text-gray-700 dark:text-gray-300" />
                             ) : (
-                              <Play className="w-4 h-4" />
+                              <Play className="w-4 h-4 text-gray-700 dark:text-gray-300" />
                             )}
                           </button>
 
@@ -513,7 +519,7 @@ export default function CreateEnvironmentModal({
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 px-4">
           <Button variant="outline" onClick={handleClose}>
             Cancel
           </Button>

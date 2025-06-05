@@ -67,7 +67,7 @@ export function Dialog({
         </TransitionChild>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="flex min-h-full items-center justify-center text-center">
             <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
@@ -79,7 +79,7 @@ export function Dialog({
             >
               <DialogPanel
                 className={cn(
-                  "w-full max-w-md transform overflow-hidden rounded-lg bg-white dark:bg-dark-100 p-6 text-left align-middle shadow-xl transition-all",
+                  "w-full max-w-md transform overflow-hidden rounded-lg bg-white dark:bg-dark-100 text-left align-middle shadow-xl transition-all",
                   className
                 )}
               >

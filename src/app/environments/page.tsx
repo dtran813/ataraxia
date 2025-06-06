@@ -113,9 +113,18 @@ export default function EnvironmentsPage() {
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                 My Environments
               </h2>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                {userEnvironments.length} environments
-              </span>
+              <div className="flex items-center gap-4">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
+                  {userEnvironments.length} environments
+                </span>
+                <Button
+                  className="flex items-center gap-2 cursor-pointer"
+                  onClick={() => setIsCreateModalOpen(true)}
+                >
+                  <Plus className="w-4 h-4" />
+                  Create New
+                </Button>
+              </div>
             </div>
 
             {userEnvironments.length > 0 ? (

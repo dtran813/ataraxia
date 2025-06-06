@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { useTheme } from "@/contexts/theme/ThemeContext";
 import { useAuth } from "@/contexts/auth/AuthContext";
 import {
+  Plus,
   Leaf,
   Mountain,
   Sun,
@@ -52,6 +53,11 @@ export function SidebarContent() {
           <Leaf className="h-4 w-4" />
           My Environments
         </div>
+
+        <button className="flex w-full items-center gap-3 rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-3 text-gray-700 dark:text-gray-300 transition-all hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer">
+          <Plus className="h-4 w-4" />
+          Create Environment
+        </button>
       </nav>
 
       {/* Theme Selection */}

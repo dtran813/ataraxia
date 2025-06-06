@@ -128,7 +128,7 @@ export function EnvironmentCard({
           <div className="absolute right-2 top-2">
             <DropdownMenu
               trigger={
-                <button
+                <span
                   className={cn(
                     "flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-all",
                     isHovered ? "opacity-100" : "opacity-0",
@@ -136,7 +136,7 @@ export function EnvironmentCard({
                   )}
                 >
                   <MoreVertical className="h-4 w-4" />
-                </button>
+                </span>
               }
             >
               <DropdownMenuItem onClick={() => console.log("Edit environment")}>

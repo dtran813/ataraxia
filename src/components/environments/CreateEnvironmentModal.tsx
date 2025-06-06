@@ -213,7 +213,7 @@ export default function CreateEnvironmentModal({
     {
       label: "Images",
       content: (
-        <div className="grid grid-cols-2 gap-3 max-h-60 overflow-y-auto py-1 pr-1 custom-scrollbar">
+        <div className="grid grid-cols-2 gap-3 max-h-60 overflow-y-auto p-1 custom-scrollbar">
           {availableBackgrounds.map((bg) => (
             <button
               key={bg.id}
@@ -238,13 +238,6 @@ export default function CreateEnvironmentModal({
                 fill
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black/20 flex items-center">
-                <div className="p-2 mx-auto bg-black/10 backdrop-blur-sm rounded-lg">
-                  <p className="text-white text-xs font-medium truncate">
-                    {bg.name}
-                  </p>
-                </div>
-              </div>
             </button>
           ))}
         </div>

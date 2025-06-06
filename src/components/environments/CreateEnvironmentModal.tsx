@@ -1,16 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  X,
-  Play,
-  Pause,
-  Volume2,
-  Camera,
-  Palette,
-  Tag,
-  Plus,
-} from "lucide-react";
+import { X, Play, Pause, Volume2, Tag, Plus } from "lucide-react";
 import { Dialog } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -222,16 +213,21 @@ export default function CreateEnvironmentModal({
     {
       label: "Images",
       content: (
-        <div className="grid grid-cols-2 gap-3 max-h-60 overflow-y-auto">
+        <div className="grid grid-cols-2 gap-3 max-h-60 overflow-y-auto py-1 pr-1 custom-scrollbar">
           {availableBackgrounds.map((bg) => (
             <button
               key={bg.id}
               onClick={() =>
-                setFormData((prev) => ({ ...prev, backgroundImage: bg.url }))
+                setFormData((prev) => ({
+                  ...prev,
+                  backgroundType: "image",
+                  backgroundImage: bg.url,
+                }))
               }
               className={cn(
-                "relative rounded-lg overflow-hidden border-2 transition-all aspect-video",
-                formData.backgroundImage === bg.url
+                "relative rounded-lg overflow-hidden border-2 transition-all aspect-video cursor-pointer",
+                formData.backgroundType === "image" &&
+                  formData.backgroundImage === bg.url
                   ? "border-primary-500 ring-2 ring-primary-200"
                   : "border-gray-200 hover:border-gray-300"
               )}
@@ -257,22 +253,62 @@ export default function CreateEnvironmentModal({
     {
       label: "Colors",
       content: (
-        <div className="grid grid-cols-8 gap-2">
-          {predefinedColors.map((color) => (
-            <button
-              key={color}
-              onClick={() =>
-                setFormData((prev) => ({ ...prev, backgroundColor: color }))
-              }
-              className={cn(
-                "w-8 h-8 rounded-lg border-2 transition-all",
-                formData.backgroundColor === color
-                  ? "border-primary-500 ring-2 ring-primary-200"
-                  : "border-gray-300 hover:border-gray-400"
-              )}
-              style={{ backgroundColor: color }}
-            />
-          ))}
+        <div className="space-y-4">
+          <div className="grid grid-cols-8 gap-2">
+            {predefinedColors.map((color) => (
+              <button
+                key={color}
+                onClick={() =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    backgroundType: "color",
+                    backgroundColor: color,
+                  }))
+                }
+                className={cn(
+                  "w-8 h-8 rounded-lg border-2 transition-all",
+                  formData.backgroundType === "color" &&
+                    formData.backgroundColor === color
+                    ? "border-primary-500 ring-2 ring-primary-200"
+                    : "border-gray-300 hover:border-gray-400"
+                )}
+                style={{ backgroundColor: color }}
+                title={color}
+              />
+            ))}
+          </div>
+
+          {/* Custom Color Picker */}
+          <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+            <Label className="text-sm mb-2 block">Custom Color</Label>
+            <div className="flex items-center gap-3">
+              <input
+                type="color"
+                value={formData.backgroundColor}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    backgroundColor: e.target.value,
+                    backgroundType: "color",
+                  }))
+                }
+                className="w-12 h-8 rounded border border-gray-300 cursor-pointer"
+              />
+              <Input
+                value={formData.backgroundColor}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    backgroundColor: e.target.value,
+                    backgroundType: "color",
+                  }))
+                }
+                placeholder="#000000"
+                className="font-mono text-sm"
+                maxLength={7}
+              />
+            </div>
+          </div>
         </div>
       ),
     },
@@ -298,7 +334,7 @@ export default function CreateEnvironmentModal({
           </button>
         </div>
 
-        <div className="space-y-6 max-h-[70vh] overflow-y-auto px-4">
+        <div className="space-y-6 max-h-[70vh] overflow-y-auto px-4 custom-scrollbar">
           {/* Basic Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -337,39 +373,6 @@ export default function CreateEnvironmentModal({
           <div>
             <Label>Background</Label>
             <div className="mt-2">
-              <div className="flex gap-2 mb-4">
-                <Button
-                  variant={
-                    formData.backgroundType === "image" ? "default" : "outline"
-                  }
-                  onClick={() =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      backgroundType: "image",
-                    }))
-                  }
-                  size="sm"
-                >
-                  <Camera className="w-4 h-4 mr-2" />
-                  Image
-                </Button>
-                <Button
-                  variant={
-                    formData.backgroundType === "color" ? "default" : "outline"
-                  }
-                  onClick={() =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      backgroundType: "color",
-                    }))
-                  }
-                  size="sm"
-                >
-                  <Palette className="w-4 h-4 mr-2" />
-                  Color
-                </Button>
-              </div>
-
               <Tabs items={backgroundTabs} />
             </div>
             <FormError message={errors.background} />
@@ -383,7 +386,7 @@ export default function CreateEnvironmentModal({
               preview.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-60 overflow-y-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
               {availableAudioTracks.map((track) => {
                 const isSelected = formData.selectedTracks.includes(track.id);
                 const isPlaying = currentlyPlaying === track.id;
@@ -497,7 +500,7 @@ export default function CreateEnvironmentModal({
               ))}
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2 pb-1">
               <Input
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}

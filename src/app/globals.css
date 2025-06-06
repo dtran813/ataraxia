@@ -60,3 +60,27 @@
     animation: pulse 3s var(--ease-pulse-slow) infinite;
   }
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgb(233, 235, 242);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(156 163 175);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(107 114 128);
+}
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: rgb(55, 70, 89);
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(106, 117, 133);
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(131, 136, 146);
+}

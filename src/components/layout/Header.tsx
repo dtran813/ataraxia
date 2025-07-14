@@ -73,6 +73,14 @@ export function Header() {
           {/* Navigation Links - Hidden on mobile */}
           <nav className="hidden md:flex items-center space-x-6">
             <Link
+              href="/environments"
+              className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
+            >
+              <Mountain className="w-4 h-4" />
+              <span>Environments</span>
+            </Link>
+
+            <Link
               href="/focus"
               className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
             >

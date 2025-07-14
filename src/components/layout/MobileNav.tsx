@@ -51,17 +51,17 @@ export function MobileNav() {
       </div>
 
       {/* Navigation Links */}
-      <DropdownMenuItem onClick={() => handleNavigation("/focus")}>
+      <DropdownMenuItem onClick={() => handleNavigation("/environments")}>
         <div className="flex items-center space-x-3">
           <Mountain className="w-5 h-5" />
-          <span>Focus Environment</span>
+          <span>Environments</span>
         </div>
       </DropdownMenuItem>
 
-      <DropdownMenuItem onClick={() => handleNavigation("/timer")}>
+      <DropdownMenuItem onClick={() => handleNavigation("/focus")}>
         <div className="flex items-center space-x-3">
-          <Timer className="w-5 h-5" />
-          <span>Timer Only</span>
+          <Mountain className="w-5 h-5" />
+          <span>Focus</span>
         </div>
       </DropdownMenuItem>
 

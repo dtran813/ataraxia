@@ -130,7 +130,7 @@ export function EnvironmentCard({
               trigger={
                 <span
                   className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-all",
+                    "flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white cursor-pointer backdrop-blur-sm transition-all",
                     isHovered ? "opacity-100" : "opacity-0",
                     "hover:bg-black/70"
                   )}

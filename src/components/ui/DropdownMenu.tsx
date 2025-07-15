@@ -31,7 +31,7 @@ export function DropdownMenuItem({
           onClick={onClick}
           disabled={disabled}
           className={cn(
-            "w-full text-left px-4 py-2 text-sm",
+            "w-full text-left px-4 py-2 text-sm cursor-pointer",
             active
               ? "bg-primary-100 dark:bg-primary-900/20 text-primary-900 dark:text-primary-100"
               : "text-gray-700 dark:text-gray-300",
@@ -63,7 +63,9 @@ export function DropdownMenu({
 }: DropdownMenuProps) {
   return (
     <Menu as="div" className={cn("relative inline-block text-left", className)}>
-      <MenuButton className={buttonClassName}>{trigger}</MenuButton>
+      <MenuButton className={cn("cursor-pointer", buttonClassName)}>
+        {trigger}
+      </MenuButton>
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"
@@ -95,7 +97,7 @@ export function DropdownMenuTrigger({
   className?: string;
 }) {
   return (
-    <div className={cn("flex items-center", className)}>
+    <div className={cn("flex items-center cursor-pointer", className)}>
       <span>{label}</span>
       <ChevronDown className="ml-2 h-4 w-4" aria-hidden="true" />
     </div>

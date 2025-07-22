@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/DropdownMenu";
 import {
   Menu,
-  Timer,
   Mountain,
   BarChart3,
   User,
